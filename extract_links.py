@@ -10,13 +10,17 @@ class ExtractLinks(HTMLParser):
     """ Use HTMLParser to extract links from input.
 
     Extend HTMLParser to handle specific tags and parameters as well as
-    store and return the links that it finds.
+    store and return the links that it finds. 
+    
+    After creating the object you have to feed it the html as a string 
+    like so: `object_name.feed(html)`. This runs the `handle_starttag()`
+    function and stores the results in self.found_links list.
     """
     def __init__(self):
         """ Overload the default HTMLParser constructor.
         
         Attributes:
-            tags_to_process (list): holds whatever links are found 
+            found_links (list): holds whatever links are found 
                 using the .feed() function. 
             
             tags_to_process (dict): a dict of key-value pairs corresponding
@@ -29,11 +33,16 @@ class ExtractLinks(HTMLParser):
                                 'script':'src', 
                                 'link':'href'}
     def handle_starttag(self, tag, attrs):
+        """ Go through all the tags in an html document and get links using
+        the `tags_to_process` dict as reference.
+        """
         for t, n in self.tags_to_process.items():
             if tag == t:
                 for name, value in attrs:
                     if name == n and value and value != '#' \
                        and 'javascript:' not in value:
+                        # Append only non empty parameters 
+                        # (`#` and `javascript` are considered empty)
                         self.found_links.append(value)
     def get_unique_links(self):
         """ Return list of links without duplicates.
