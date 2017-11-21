@@ -14,7 +14,7 @@ class ExtractLinks(HTMLParser):
     
     After creating the object you have to feed it the html as a string 
     like so: `object_name.feed(html)`. This runs the `handle_starttag()`
-    function and stores the results in self.found_links list.
+    function and stores the results in `self.found_links` list.
     """
     def __init__(self):
         """ Overload the default HTMLParser constructor.
@@ -42,7 +42,7 @@ class ExtractLinks(HTMLParser):
                     if name == n and value and value != '#' \
                        and 'javascript:' not in value:
                         # Append only non empty parameters 
-                        # (`#` and `javascript` are considered empty)
+                        # ("#" and "javascript" are considered empty)
                         self.found_links.append(value)
     def get_unique_links(self):
         """ Return list of links without duplicates.
@@ -91,7 +91,7 @@ elif args.url:
                 if l[0:2] == '//':
                     # Protocol relative url found
                     print(parsed_uri.scheme + ':' + l)
-                if l[0] == '/':
+                elif l[0] == '/':
                     # Link relative to root found
                     print(domain + l)
                 elif 'http' not in l and l[0] != '/':
