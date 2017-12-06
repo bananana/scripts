@@ -1,7 +1,7 @@
 # Vim
 *.swp
 *~
-test.html
+test*
 
 *.py[cod]
 *$py.class
